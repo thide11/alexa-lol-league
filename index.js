@@ -138,7 +138,7 @@ app.get('/getElo', async (req, res) => {
 
   const data = await database.getUserDataByAmazonId(amazonId);
   console.log(data);
-  if(!data){
+  if(!data) {
     res.json({
       message: "Nick do invocador não encontrado, por favor, acesse o site da skill e insira lá"
     })
