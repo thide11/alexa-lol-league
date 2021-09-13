@@ -63,7 +63,7 @@ app.post('/leagueData', async (req, res) => {
     })
     return;
   }
-  const riotData = await riotApi.getSummonerData(userData.nickname);
+  const riotData = await riotApi.getSummonerData(userData.region, userData.nickname);
   if(riotData == null) {
     res.json({
       message: "This nickname does not exist"
@@ -144,7 +144,7 @@ app.get('/getElo', async (req, res) => {
     })
     return;
   }
-  const rankData = await riotApi.getSoloDuoRank(data.summonerId)
+  const rankData = await riotApi.getSoloDuoRank(data.region, data.summonerId)
   console.log(rankData)
   res.json(rankData)
 })

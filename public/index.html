@@ -42,7 +42,19 @@
     }
 
     function createLoggedUserForm(jwt, data) {
-      const regions = ["BRL", "USA"]
+      const regions = [
+        "BR1", 
+        "EUN1",
+        "EUW1",
+        "JP1",
+        "KR",
+        "LA1",
+        "LA2",
+        "NA1",
+        "OC1",
+        "TR1",
+        "RU",
+      ]
 
       const $button = document.createElement('button');
       $button.addEventListener('click', async () => {
