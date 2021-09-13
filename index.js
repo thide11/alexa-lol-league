@@ -7,7 +7,7 @@ const riotApiFn = require("./riot-api");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const baseUrl = process.env.baseUrl;
+const baseUrl = process.env.BASE_URL;
 const publicConsts = {
   clientId: process.env.AMAZON_CLIENT_ID,
   baseUrl: baseUrl,
