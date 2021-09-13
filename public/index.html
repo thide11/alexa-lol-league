@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Alexa lol league</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+  <!-- <script src='main.js'></script> -->
+</head>
+
+<body>
+  <div id="amazon-root"></div>
+  <div id="ui-data">
+    
+  </div>
+  <script type="text/javascript">
+
+    async function getConstants() {
+      const response = await fetch("/constants");
+      const json = await response.json();
+      return json;
+    }
+
+    async function getLoggedUserData(jwt) {
+      const response = await fetch(`/leagueData?jwt=${jwt}`);
+      const json = await response.json();
+      return json;
+    }
+
+    async function saveLoggedUserData(jwt, data) {
+      const response = await fetch(`/leagueData?jwt=${jwt}`, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json"
+        }
+      });
+      const json = await response.json();
+      return json;
+    }
+
+    function createLoggedUserForm(jwt, data) {
+      const regions = ["BRL", "USA"]
+
+      const $button = document.createElement('button');
+      $button.addEventListener('click', async () => {
+        const $errorIndicator = document.querySelector("#error-indicator")
+        $errorIndicator.innerHTML = "";
+        const payload = {
+          nickname: document.querySelector("#nickname").value,
+          region: document.querySelector("#region").value,
+        }
+        const data = await saveLoggedUserData(jwt, payload)
+        console.log(data);
+        if(data.message) {
+          $errorIndicator.innerHTML = data.message;
+        } else {
+          createLoggedUserForm(jwt, data);
+        }
+      })
+
+      $button.innerHTML = "Alterar informações"
+      const $uiData = document.querySelector(
+        "#ui-data"
+      );
+      $uiData.innerHTML = `
+        <span id="error-indicator" style="color: red"></span>
+        <input type="text" value="${data.nickname}" placeholder="Type our summoner name..." id="nickname"/>
+        <select name="select" id="region">
+          <option value="">Region</option>
+          ${regions.map((region) => 
+            `<option value="${region}"${data.region == region ? " selected" : ""}>
+              ${region}
+            </option>`
+          )}
+        </select>
+      `
+      $uiData.appendChild($button)
+    }
+
+    function createLoginButton(constants) {
+      const $uiData = document.querySelector(
+        "#ui-data"
+      );
+      $uiData.innerHTML = `
+        <a href id="LoginWithAmazon">
+        <img border="0" alt="Login with Amazon"
+          src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png" width="156" height="32" />
+        </a>
+      `
+      const $loginButton = document.getElementById('LoginWithAmazon');
+      $loginButton.onclick = async function (e) {
+        e.preventDefault();
+        $loginButton.style.display = "none";
+
+        options = {}
+        options.popup = false;
+        options.scope = 'profile:user_id';
+        options.response_type = 'code';
+        amazon.Login.authorize(
+          options,
+          constants.redirectUri
+        );
+        return false;
+      }
+    }
+
+    async function load() {
+      const jwt = localStorage.getItem("jwt");
+      if(jwt) {
+        const data = await getLoggedUserData(jwt);
+        createLoggedUserForm(jwt, data);
+        
+      } else {
+        const constants = await getConstants();
+        configureAmazonSdk(constants);
+        createLoginButton(constants);
+      }
+    };
+    
+    function configureAmazonSdk(constants) {
+      window.onAmazonLoginReady = function () {
+        amazon.Login.setClientId(constants.clientId);
+      };
+      
+      (function (d) {
+        var a = d.createElement('script'); a.type = 'text/javascript';
+        a.async = true; a.id = 'amazon-login-sdk';
+        a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+        d.getElementById('amazon-root').appendChild(a);
+      })(document);
+    }
+    
+    load();
+  </script>
+</body>
+
+</html>

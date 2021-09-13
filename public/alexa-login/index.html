@@ -1,0 +1,18 @@
+<script>
+  async function getConstants() {
+    const response = await fetch("/constants");
+    const json = await response.json();
+    return json;
+  }
+
+  async function loadRedirect() {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const state = urlSearchParams.get("state");
+
+    const contants = await getConstants();
+    window.location = 
+      `https://www.amazon.com/ap/oa?client_id=${contants.clientId}&scope=profile:user_id&response_type=code&state=${state}&redirect_uri=${contants.alexaRedirectUri}`
+  }
+  loadRedirect();
+
+</script>
