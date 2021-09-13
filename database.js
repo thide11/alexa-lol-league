@@ -10,7 +10,10 @@ module.exports = function() {
   }
 
   async function getUserDataByAmazonId(id) {
-    return data[id];
+    return data[id] ?? {
+      nickname: '',
+      region: '',
+    };
   }
 
   async function saveUserDataByAmazonId(id, newData) {
