@@ -2,7 +2,7 @@ const axios = require("axios")
 
 module.exports = function (apiKey) {
   const baseUrl = "https://br1.api.riotgames.com";
-  
+
   function getBaseUrl(region) {
     return `https://${region}.api.riotgames.com`;
   }
@@ -19,12 +19,12 @@ module.exports = function (apiKey) {
     }
   }
 
-  async function getMatches(accountId) {
-    const { data } = await axios.get(`${baseUrl}/lol/league/v4/entries/by-summoner/${accountId}?api_key=${apiKey}`)
+  async function getMatches(summonerId) {
+    const { data } = await axios.get(`${baseUrl}/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${apiKey}`)
     return data;
   }
 
-  async function getSoloDuoRank(accountId) {
+  async function getSoloDuoRank(summonerId) {
     const matchData = await getMatches(summonerId);
     const rankedSolo = matchData.find((e) => e.queueType == "RANKED_SOLO_5x5");
     if(!rankedSolo) {
