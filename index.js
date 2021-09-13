@@ -46,7 +46,10 @@ function getJwtAmazonIdOrNull(req) {
 
 app.get('/leagueData', async (req, res) => {
   const amazonId = getJwtAmazonIdOrNull(req)
-  const data = await database.getUserDataByAmazonId(amazonId)
+  const data = (await database.getUserDataByAmazonId(amazonId)) ?? {
+    nickname: '',
+    region: '',
+  };
   res.json(data);
 })
 
@@ -134,6 +137,7 @@ app.get('/getElo', async (req, res) => {
   }
 
   const data = await database.getUserDataByAmazonId(amazonId);
+  console.log(data);
   if(!data){
     res.json({
       message: "Nick do invocador não encontrado, por favor, acesse o site da skill e insira lá"
