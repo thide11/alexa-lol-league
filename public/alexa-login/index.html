@@ -1,18 +1,24 @@
-<script>
-  async function getConstants() {
-    const response = await fetch("/constants");
-    const json = await response.json();
-    return json;
-  }
+<!DOCTYPE html>
+<html>
 
-  async function loadRedirect() {
-    const urlSearchParams = new URLSearchParams(window.location.search);
-    const state = urlSearchParams.get("state");
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>Alexa lol league</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+</head>
+<body>
+  <h1 style="display: flex; justify-content: center; align-items: center;">Redirecionando...</h1>
+  <script src="../get-consts.js"></script>
+  <script>
+    async function loadRedirect() {
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const state = urlSearchParams.get("state");
 
-    const contants = await getConstants();
-    window.location = 
-      `https://www.amazon.com/ap/oa?client_id=${contants.clientId}&scope=profile:user_id&response_type=code&state=${state}&redirect_uri=${contants.alexaRedirectUri}`
-  }
-  loadRedirect();
-
-</script>
+      const contants = await getConstants();
+      window.location = 
+        `https://www.amazon.com/ap/oa?client_id=${contants.clientId}&scope=profile:user_id&response_type=code&state=${state}&redirect_uri=${contants.alexaRedirectUri}`
+    }
+    loadRedirect();
+  </script>
+</body>

@@ -1,0 +1,79 @@
+@font-face {
+  font-family: fritzQuad;
+  src: url(../assets/fonts/FrizQuadrata.ttf);
+}
+
+body {
+  background-color: #202D35;
+  font-family: fritzQuad;
+  color: white;
+  text-rendering: optimizeLegibility;
+}
+
+#logos {
+  text-align: center;
+}
+
+#logos img {
+  width: 300px;
+}
+
+#ui-data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+#summoner-form {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+#league-button {
+  position: relative;
+  cursor: pointer;
+  width: 180px;
+  height: 42px;
+  display: flex;
+}
+#league-button #play-button {
+  width: 75%;
+  transition-duration: .2s;
+}
+#league-button #challanger-logo {
+  width: 35px;
+}
+#league-button:hover #play-button {
+  filter: brightness(150%);
+}
+
+#league-button span {
+  position: absolute;
+  left: 70px;
+  top: 12px;
+  color: white;
+  z-index: 2;
+}
+
+#nickname {
+  padding: 10px;
+  width: 200px;
+  border: 1px solid #E9D972;
+  background-color: #040304;
+  color: white;
+  border-right: 0;
+  outline: 0;
+}
+
+#region {
+  padding: 9px;
+  background-color: #040304;
+  color: white;
+  border: 1px solid #E9D972;
+  border-left: 0;
+  outline: 0;
+}

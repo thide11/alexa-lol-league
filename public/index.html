@@ -6,23 +6,25 @@
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
   <title>Alexa lol league</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
-  <!-- <script src='main.js'></script> -->
+  <link rel='stylesheet' type='text/css' media='screen' href='style/style.css'>
 </head>
 
 <body>
+  <script src="render-form.js"></script>
+  <div id="logos">
+    <img src="assets/images/alexa.png">
+    <img src="assets/images/challanger.png">
+  </div>
+  <h1 style="text-align: center; color: #CDBE91;">Alexa show your league of legends elo</h1>
+  <div id="ui-data">
+  </div>
+
   <div id="amazon-root"></div>
   <div id="ui-data">
-    
   </div>
+  <script src="get-consts.js"></script>
+  <script src="render-form.js"></script>
   <script type="text/javascript">
-
-    async function getConstants() {
-      const response = await fetch("/constants");
-      const json = await response.json();
-      return json;
-    }
-
     async function getLoggedUserData(jwt) {
       const response = await fetch(`/leagueData?jwt=${jwt}`);
       const json = await response.json();
@@ -42,54 +44,29 @@
     }
 
     function createLoggedUserForm(jwt, data) {
-      const regions = [
-        "BR1", 
-        "EUN1",
-        "EUW1",
-        "JP1",
-        "KR",
-        "LA1",
-        "LA2",
-        "NA1",
-        "OC1",
-        "TR1",
-        "RU",
-      ]
-
       const $button = document.createElement('button');
-      $button.addEventListener('click', async () => {
-        const $errorIndicator = document.querySelector("#error-indicator")
-        $errorIndicator.innerHTML = "";
-        const payload = {
-          nickname: document.querySelector("#nickname").value,
-          region: document.querySelector("#region").value,
-        }
-        const data = await saveLoggedUserData(jwt, payload)
-        console.log(data);
-        if(data.message) {
-          $errorIndicator.innerHTML = data.message;
-        } else {
-          createLoggedUserForm(jwt, data);
-        }
-      })
-
-      $button.innerHTML = "Alterar informações"
-      const $uiData = document.querySelector(
-        "#ui-data"
+      $button.addEventListener('click', onButtonClicked)
+      renderForm(
+        onButtonClicked,
+        data.nickname,
+        data.region,
       );
-      $uiData.innerHTML = `
-        <span id="error-indicator" style="color: red"></span>
-        <input type="text" value="${data.nickname}" placeholder="Type our summoner name..." id="nickname"/>
-        <select name="select" id="region">
-          <option value="">Region</option>
-          ${regions.map((region) => 
-            `<option value="${region}"${data.region == region ? " selected" : ""}>
-              ${region}
-            </option>`
-          )}
-        </select>
-      `
-      $uiData.appendChild($button)
+    }
+
+    async function onButtonClicked() {
+      const $errorIndicator = document.querySelector("#error-indicator")
+      $errorIndicator.innerHTML = "";
+      const payload = {
+        nickname: document.querySelector("#nickname").value,
+        region: document.querySelector("#region").value,
+      }
+      const data = await saveLoggedUserData(jwt, payload)
+      console.log(data);
+      if(data.message) {
+        $errorIndicator.innerHTML = data.message;
+      } else {
+        createLoggedUserForm(jwt, data);
+      }
     }
 
     function createLoginButton(constants) {
@@ -120,15 +97,25 @@
     }
 
     async function load() {
-      const jwt = localStorage.getItem("jwt");
-      if(jwt) {
-        const data = await getLoggedUserData(jwt);
-        createLoggedUserForm(jwt, data);
-        
-      } else {
-        const constants = await getConstants();
-        configureAmazonSdk(constants);
-        createLoginButton(constants);
+      try {
+        const jwt = localStorage.getItem("jwt");
+        if(jwt) {
+          const data = await getLoggedUserData(jwt);
+          createLoggedUserForm(jwt, data);
+        } else {
+          const constants = await getConstants();
+          configureAmazonSdk(constants);
+          createLoginButton(constants);
+        }
+      } catch (e) {
+        const $uiData = document.querySelector(
+          "#ui-data"
+        );
+        $uiData.innerHTML = `
+          <h3>Ops, parece que o ziggs passou por aqui!</h3>
+          <div style="width: 100%"></div>
+          <h3 style="color: red; margin: 0;">Ocorreu um erro</h3>
+        `;
       }
     };
     
