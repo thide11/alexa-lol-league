@@ -29,22 +29,39 @@ module.exports = function() {
 
   async function saveUserDataByAmazonId(id, newData) {
     const client = createConnection();
+    const summoner = await getUserDataByAmazonId(id);
     await client.connect()
-    await client.query(
-      `insert into summoners (
-        nickname,
-        region,
-        puuid,
-        summonerId,
-        amazonId
-      ) values (
-        '${newData.nickname}',
-        '${newData.region}',
-        '${newData.puuid}',
-        '${newData.summonerId}',
-        '${id}'
-      )`
-    );
+    if(summoner != null) {
+      await client.query(
+        `insert into summoners (
+          nickname,
+          region,
+          puuid,
+          summonerId,
+          amazonId
+        ) values (
+          '${newData.nickname}',
+          '${newData.region}',
+          '${newData.puuid}',
+          '${newData.summonerId}',
+          '${id}'
+        )`
+      );
+    } else {
+      await client.query(
+        `update summoners set (
+          nickname,
+          region,
+          puuid,
+          summonerId
+        ) = (
+          '${newData.nickname}',
+          '${newData.region}',
+          '${newData.puuid}',
+          '${newData.summonerId}'
+        ) WHERE amazonId = '${id}'`
+      );
+    }
     await client.end();
   }
 
