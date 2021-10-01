@@ -1,12 +1,15 @@
 const { Client } = require("pg");
 
 module.exports = function() {
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  });
+
+  function createConnection() {
+    return new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false
+      }
+    });
+  }
   // CREATE TABLE summoners(
   //   nickname VARCHAR(16) NOT NULL,
   //   region VARCHAR(4) NOT NULL,
@@ -17,6 +20,7 @@ module.exports = function() {
   // );
 
   async function getUserDataByAmazonId(id) {
+    const client = createConnection();
     await client.connect()
     const summoners = await client.query(`select * from summoners WHERE amazonId = '${id}'`).rows;
     await client.end();
@@ -24,6 +28,7 @@ module.exports = function() {
   }
 
   async function saveUserDataByAmazonId(id, newData) {
+    const client = createConnection();
     await client.connect()
     await client.query(
       `insert into summoners (
