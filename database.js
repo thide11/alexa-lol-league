@@ -1,7 +1,9 @@
 const postgres = require("postgres");
 
 module.exports = function() {
-  const sql = postgres(process.env.DATABASE_URL);
+  const sql = postgres(process.env.DATABASE_URL, {
+    ssl: true,
+  });
   // CREATE TABLE summoners(
   //   nickname VARCHAR(16) NOT NULL,
   //   region VARCHAR(4) NOT NULL,
