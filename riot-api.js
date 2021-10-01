@@ -25,7 +25,7 @@ module.exports = function (apiKey) {
 
   async function getSummonerData(region, nickname) {
     try {
-      const url = `${getBaseUrl(region)}/lol/summoner/v4/summoners/by-name/${nickname}?api_key=${apiKey}`;
+      const url = `${getBaseUrl(region)}/lol/summoner/v4/summoners/by-name/${encodeURI(nickname)}?api_key=${apiKey}`;
       console.log(url)
       const { data } = await axios.get(url)
       return data;
