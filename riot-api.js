@@ -1,8 +1,6 @@
 const axios = require("axios")
 
 module.exports = function (apiKey) {
-  const baseUrl = "https://br1.api.riotgames.com";
-
   function getBaseUrl(region) {
     const regionsToHostBase = {
       "BR1": "br1", 

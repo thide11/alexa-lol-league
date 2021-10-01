@@ -14,31 +14,41 @@ module.exports = function() {
   //   nickname VARCHAR(16) NOT NULL,
   //   region VARCHAR(4) NOT NULL,
   //   puuid TEXT not NULL,
-  //   summonerId TEXT not null,
-  //   amazonId TEXT not null,
-  //   PRIMARY KEY (amazonId)
+  //   summoner_id TEXT not null,
+  //   amazon_id TEXT not null,
+  //   PRIMARY KEY (amazon_id)
   // );
 
   async function getUserDataByAmazonId(id) {
     const client = createConnection();
     await client.connect()
-    const summoners = await client.query(`select * from summoners WHERE amazonId = '${id}'`).rows;
+    const summoners = (await client.query(`select * from summoners WHERE amazon_id = '${id}'`)).rows;
     await client.end();
-    return summoners != undefined ? summoners[0] : null;
+    if(summoners.length > 0) {
+      const dbSummoner = summoners[0]
+      return {
+        nickname: dbSummoner.nickname,
+        region: dbSummoner.region,
+        puuid: dbSummoner.puuid,
+        summonerId: dbSummoner["summoner_id"],
+        amazonId: dbSummoner["amazon_id"]
+      }
+    }
+    return null;
   }
 
   async function saveUserDataByAmazonId(id, newData) {
     const client = createConnection();
     const summoner = await getUserDataByAmazonId(id);
     await client.connect()
-    if(summoner != null) {
+    if(summoner == null) {
       await client.query(
         `insert into summoners (
           nickname,
           region,
           puuid,
-          summonerId,
-          amazonId
+          summoner_id,
+          amazon_id
         ) values (
           '${newData.nickname}',
           '${newData.region}',
@@ -53,13 +63,13 @@ module.exports = function() {
           nickname,
           region,
           puuid,
-          summonerId
+          summoner_id
         ) = (
           '${newData.nickname}',
           '${newData.region}',
           '${newData.puuid}',
           '${newData.summonerId}'
-        ) WHERE amazonId = '${id}'`
+        ) WHERE amazon_id = '${id}'`
       );
     }
     await client.end();

@@ -1,3 +1,11 @@
+function getSubmitButtonHtml() {
+  return `
+    <img src="assets/images/challanger.png" id="challanger-logo">
+    <img src="assets/images/play-button-click-area.png" id="play-button">
+    <span>SALVAR</span>
+  `
+}
+
 function renderForm(
   onButtonClick,
   nick, 
@@ -20,16 +28,11 @@ function renderForm(
   const $button = document.createElement('div');
   $button.id = "league-button"
   $button.addEventListener('click', onButtonClick);
-  $button.innerHTML = `
-    <img src="assets/images/challanger.png" id="challanger-logo">
-    <img src="assets/images/play-button-click-area.png" id="play-button">
-    <span>SALVAR</span>
-  `
+  $button.innerHTML = getSubmitButtonHtml();
   const $uiData = document.querySelector(
     "#ui-data"
   );
   $uiData.innerHTML = `
-    <span id="error-indicator" style="color: red"></span>
     <div id="summoner-form">
       <input type="text" value="${nick}" placeholder="Type our summoner name..." id="nickname"/>
       <select name="select" id="region">
@@ -40,6 +43,10 @@ function renderForm(
           </option>`
         )}
       </select>
+      <div style="flex: 0 0 100%; height: 10px;"></div>
+      <span id="error-indicator" style="color: red"></span>
+      <div style="flex: 0 0 100%"></div>
+      <span id="sucess-indicator" style="color: green"></span>
     </div>
   `
   $uiData.appendChild($button)

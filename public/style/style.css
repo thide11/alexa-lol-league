@@ -29,6 +29,7 @@ body {
   flex-basis: 100%;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
   margin-bottom: 20px;
 }
@@ -61,7 +62,7 @@ body {
 
 #nickname {
   padding: 10px;
-  width: 200px;
+  width: 195px;
   border: 1px solid #E9D972;
   background-color: #040304;
   color: white;
