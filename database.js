@@ -24,7 +24,7 @@ module.exports = function() {
     await client.connect()
     const summoners = await client.query(`select * from summoners WHERE amazonId = '${id}'`).rows;
     await client.end();
-    return summoners.length > 0 ? summoners[0] : null;
+    return summoners != undefined ? summoners[0] : null;
   }
 
   async function saveUserDataByAmazonId(id, newData) {
