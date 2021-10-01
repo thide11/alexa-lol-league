@@ -45,7 +45,7 @@
 
     function createLoggedUserForm(jwt, data) {
       const $button = document.createElement('button');
-      $button.addEventListener('click', onButtonClicked)
+      $button.addEventListener('click', () => onButtonClicked(jwt));
       renderForm(
         onButtonClicked,
         data.nickname,
@@ -53,7 +53,7 @@
       );
     }
 
-    async function onButtonClicked() {
+    async function onButtonClicked(jwt) {
       const $errorIndicator = document.querySelector("#error-indicator")
       $errorIndicator.innerHTML = "";
       const payload = {

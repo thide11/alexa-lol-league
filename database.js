@@ -1,4 +1,5 @@
 module.exports = function() {
+  // const sql = postgres(process.env.DATABASE_URL);
   let data = {}
 
   async function getUserDataByAmazonId(id) {
