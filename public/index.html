@@ -44,12 +44,8 @@
     }
 
     function createLoggedUserForm(jwt, data) {
-      const $button = document.createElement('button');
-      $button.addEventListener('click', (_) => {
-        onButtonClicked(jwt)
-      });
       renderForm(
-        onButtonClicked,
+        (_) => onButtonClicked(jwt),
         data.nickname,
         data.region,
       );
