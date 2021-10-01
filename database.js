@@ -11,7 +11,7 @@ module.exports = function() {
   //   PRIMARY KEY (amazonId)
   // );
 
-  function getUserDataByAmazonId(id) {
+  async function getUserDataByAmazonId(id) {
     const summoners = await sql`select * from summoners WHERE amazonId = '${id}'`;
     return summoners.length > 0 ? summoners[0] : null;
   }
