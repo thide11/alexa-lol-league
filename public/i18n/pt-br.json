@@ -1,0 +1,15 @@
+{
+  "MISSING_NICKNAME_REGION": "Você deve selecionar uma região e um nome do invocador",
+  "INEXISTENT_NICKNAME": "Este nickname não existe",
+  "EXPIRED_API_KEY": "Chave de api expirada",
+  "UNAUTHENTICATED": "Você não está autenticado",
+  "SUMMONER_NOT_FOUND": "Nick do invocador não encontrado, por favor, acesse o site da skill e insira lá",
+  "SUMMONER_NICKNAME_SAVED": "Nome do invocador salvo com sucesso",
+  "TITLE": "Exibir de elo do league of legends via Alexa",
+  "AMAZON_LOGIN": "Logar com amazon",
+  "UNHANDLED_ERROR_MESSAGE": "Ops, parece que o ziggs passou por aqui!",
+  "ERROR_OCCURRED": "Ocorreu um erro",
+  "SUMMONER_FIELD_PLACEHOLDER": "Digite seu nome do invocador..",
+  "REGION": "Região",
+  "SAVE": "Salvar"
+}

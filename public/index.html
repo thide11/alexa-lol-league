@@ -14,7 +14,7 @@
   <div id="logos">
     <img src="assets/images/alexa.png">
   </div>
-  <h1 style="text-align: center; color: #CDBE91;">Exibir de elo do league of legends via Alexa</h1>
+  <h1 style="text-align: center; color: #CDBE91;" id="page-title"></h1>
   <div id="ui-data">
   </div>
 
@@ -24,6 +24,21 @@
   <script src="get-consts.js"></script>
   <script src="render-form.js"></script>
   <script type="text/javascript">
+
+    let translationPack;
+    async function loadI18N() {
+      const language = navigator.language;
+      let url = "/i18n/"
+      if (/^pt\b/.test(navigator.language)) {
+        url += "pt-br.json";
+      } else {
+        url += "en.json";
+      }
+      const request = await fetch(url)
+      const data = await request.json();
+      return data;
+    }
+
     async function getLoggedUserData(jwt) {
       const response = await fetch(`/leagueData?jwt=${jwt}`);
       const json = await response.json();
@@ -47,6 +62,7 @@
         (_) => onButtonClicked(jwt),
         data.nickname,
         data.region,
+        translationPack,
       );
     }
 
@@ -71,12 +87,12 @@
       }
       const data = await saveLoggedUserData(jwt, payload)
       console.log(data);
-      if(data.message) {
-        $errorIndicator.innerHTML = data.message;
+      if(data.code || data.message) {
+        $errorIndicator.innerHTML = translationPack[data.code] || data.message;
       } else {
-        $sucessIndicator.innerHTML = "Nickname salvo com sucesso!";
+        $sucessIndicator.innerHTML = translationPack["SUMMONER_NICKNAME_SAVED"];
       }
-      $button.innerHTML = getSubmitButtonHtml();
+      $button.innerHTML = getSubmitButtonHtml(translationPack["SAVE"]);
     }
 
     function createLoginButton(constants) {
@@ -85,7 +101,7 @@
       );
       $uiData.innerHTML = `
         <a href id="LoginWithAmazon">
-        <img border="0" alt="Login with Amazon"
+        <img border="0" alt="${translationPack["AMAZON_LOGIN"]}"
           src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_156x32.png" width="156" height="32" />
         </a>
       `
@@ -108,6 +124,9 @@
 
     async function load() {
       try {
+        translationPack = await loadI18N();
+        document.querySelector("#page-title").innerHTML = translationPack["TITLE"];
+
         const jwt = localStorage.getItem("jwt");
         if(jwt) {
           const data = await getLoggedUserData(jwt);
@@ -122,9 +141,9 @@
           "#ui-data"
         );
         $uiData.innerHTML = `
-          <h3>Ops, parece que o ziggs passou por aqui!</h3>
+          <h3>${translationPack["UNHANDLED_ERROR_MESSAGE"]}</h3>
           <div style="width: 100%"></div>
-          <h3 style="color: red; margin: 0;">Ocorreu um erro</h3>
+          <h3 style="color: red; margin: 0;">${translationPack["ERROR_OCCURRED"]}</h3>
         `;
       }
     };

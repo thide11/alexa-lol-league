@@ -1,15 +1,16 @@
-function getSubmitButtonHtml() {
+function getSubmitButtonHtml(title) {
   return `
     <img src="assets/images/challanger.png" id="challanger-logo">
     <img src="assets/images/play-button-click-area.png" id="play-button">
-    <span>SALVAR</span>
+    <span>${title}</span>
   `
 }
 
 function renderForm(
   onButtonClick,
   nick, 
-  selectedRegion
+  selectedRegion,
+  translationPack
 ) {
   const regions = [
     "BR1", 
@@ -28,15 +29,15 @@ function renderForm(
   const $button = document.createElement('div');
   $button.id = "league-button"
   $button.addEventListener('click', onButtonClick);
-  $button.innerHTML = getSubmitButtonHtml();
+  $button.innerHTML = getSubmitButtonHtml(translationPack["SAVE"]);
   const $uiData = document.querySelector(
     "#ui-data"
   );
   $uiData.innerHTML = `
     <div id="summoner-form">
-      <input type="text" value="${nick}" placeholder="Type our summoner name..." id="nickname"/>
+      <input type="text" value="${nick}" placeholder="${translationPack["SUMMONER_FIELD_PLACEHOLDER"]}" id="nickname"/>
       <select name="select" id="region">
-        <option value="">Region</option>
+        <option value="">${translationPack["REGION"]}</option>
         ${regions.map((region) => 
           `<option value="${region}"${selectedRegion == region ? " selected" : ""}>
             ${region}
