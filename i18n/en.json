@@ -1,0 +1,7 @@
+{
+  "MISSING_NICKNAME_REGION": "You must provide an nickname and a region",
+  "INEXISTENT_NICKNAME": "This nickname does not exist",
+  "EXPIRED_API_KEY": "Api key expired",
+  "UNAUTHENTICATED": "You are unauthenticated to acess this resource",
+  "SUMMONER_NOT_FOUND": "Summoner not found, please, acess the website and place you league of legends summoner name"
+}
