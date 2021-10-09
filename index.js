@@ -26,6 +26,6 @@ const allConsts = {
 const riotApi = riotApiFn(allConsts.riotApiKey)
 const app = createServer(publicConsts, allConsts, database, riotApi);
 
-app.listen(port, () => {
+app.listen(allConsts.port, () => {
   console.log(`Listening at https://localhost:${port}`)
 })
