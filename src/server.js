@@ -1,7 +1,6 @@
 const axios = require("axios")
 const express = require('express')
 const jwt = require('jsonwebtoken');
-// const database = require("./database");
 
 module.exports = (publicConsts, allConsts, database, riotApi) => {
   const app = express()
