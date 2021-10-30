@@ -120,7 +120,7 @@ module.exports = (publicConsts, allConsts, database, riotApi) => {
       res.send(`
       <script>
         localStorage.setItem("jwt", "${data}")
-        window.location.href = "${baseUrl}"
+        window.location.href = "${publicConsts.baseUrl}"
       </script>
     `);
     } else {
