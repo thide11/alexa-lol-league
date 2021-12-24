@@ -1,6 +1,6 @@
 @font-face {
   font-family: fritzQuad;
-  src: url(../assets/fonts/FrizQuadrata.ttf);
+  src: url(~/assets/fonts/FrizQuadrata.ttf);
 }
 
 body {
