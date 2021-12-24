@@ -1,25 +1,34 @@
 const axios = require("axios")
 const express = require('express')
+const cors = require('cors')
 const jwt = require('jsonwebtoken');
 
-module.exports = (publicConsts, allConsts, database, riotApi) => {
+const isDev = process.env.NODE_ENV !== 'production'
+const { loadNuxt, build } = require('nuxt')
+
+module.exports = async (publicConsts, allConsts, database, riotApi) => {
   const app = express()
   const jwtKey = "shhh"
 
   app.use(express.json())
-  app.use(express.static('public'));
+  app.use(cors())
 
   app.get('/constants', (_, res) => {
     res.send(publicConsts);
   })
 
   function getJwtAmazonIdOrNull(req) {
-    if (!req.query.jwt) {
+    try {
+      if (!req.query.jwt) {
+        return null;
+      }
+      const decoded = jwt.verify(req.query.jwt, jwtKey);
+      console.log(decoded)
+      return decoded.userId;
+    } catch (e) {
+      console.log(e)
       return null;
     }
-    const decoded = jwt.verify(req.query.jwt, jwtKey);
-    console.log(decoded)
-    return decoded.userId;
   }
 
   app.get('/leagueData', async (req, res) => {
@@ -61,6 +70,8 @@ module.exports = (publicConsts, allConsts, database, riotApi) => {
         return;
       }
 
+
+
       const newData = {
         nickname: userData.nickname,
         region: userData.region,
@@ -84,50 +95,28 @@ module.exports = (publicConsts, allConsts, database, riotApi) => {
     })
   }
 
-  app.get('/alexaouathcallback', async (req, res) => {
-    const { state, code } = req.query;
-    if (code && state) {
-      console.log("Código de autenticacao:")
-      console.log(code)
-      console.log("State recebido:")
-      console.log(state)
-      const acessToken = await changeCodeToAcessToken(code, allConsts.alexaRedirectUri)
-      const userId = await getUserId(acessToken);
-      const jwtToken = jwt.sign({ userId: userId }, jwtKey)
-      res.send(`
-        <script>
-          localStorage.setItem("jwt", "${jwtToken}")
-          window.location.href = 
-            "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M2Q9KOUNA747EW&state=${state}&access_token=${jwtToken}&token_type=Bearer"
-        </script>
-      `);
-
+  app.post('/exchangeCodeToJWT', async (req, res) => {
+    const { code, } = req.body;
+    if(code && code.length == 20) {
+      try {
+        const acessToken = await changeCodeToAcessToken(code, allConsts.alexaRedirectUri);
+        console.log("Acess token adquirido 2!");
+        console.log(acessToken);
+        const userId = await getUserId(acessToken);
+        console.log("User id:  " + userId);
+        const jwtToken = jwt.sign({ userId: userId }, jwtKey)
+        console.log("JWT:  " + jwtToken);
+        res.status(200).json({
+          jwt: jwtToken
+        })
+      } catch (e) {
+        console.error(e);
+        res.json({message: "Código recebido foi delcarado como inválido pela amazon"});
+      }
     } else {
-      // Autenticado com o user id ${userId}, sete o seguinto jwt: ${data}`
-      res.send("Token de autenticação não recebido");
+      res.json({message: "Token de autenticação inválido não recebido"});
     }
   });
-
-  app.get('/ouathcallback', async (req, res) => {
-    const { code } = req.query;
-    if (code) {
-      console.log("Código de autenticacao:")
-      console.log(code)
-      const acessToken = await changeCodeToAcessToken(code, allConsts.redirectUri)
-      const userId = await getUserId(acessToken);
-      const data = jwt.sign({ userId: userId }, jwtKey)
-
-      res.send(`
-      <script>
-        localStorage.setItem("jwt", "${data}")
-        window.location.href = "${publicConsts.baseUrl}"
-      </script>
-    `);
-    } else {
-      // Autenticado com o user id ${userId}, sete o seguinto jwt: ${data}`
-      res.send("Token de autenticação não recebido");
-    }
-  })
 
   app.get('/getElo', async (req, res) => {
     const amazonId = getJwtAmazonIdOrNull(req);
@@ -153,6 +142,12 @@ module.exports = (publicConsts, allConsts, database, riotApi) => {
     res.json(rankData)
   })
 
+  const nuxt = await loadNuxt(isDev ? 'dev' : 'start')
+  app.use(nuxt.render)
+  if (isDev) {
+    build(nuxt)
+  }
+  
   async function changeCodeToAcessToken(code, redirectUri) {
     const payload = new URLSearchParams({
       grant_type: "authorization_code",
@@ -161,7 +156,7 @@ module.exports = (publicConsts, allConsts, database, riotApi) => {
       client_secret: allConsts.clientSecret,
       redirect_uri: redirectUri,
     })
-    console.log(payload);
+    // console.log(payload);
     try {
       const data = await axios.post(
         "https://api.amazon.com/auth/o2/token",
@@ -171,6 +166,7 @@ module.exports = (publicConsts, allConsts, database, riotApi) => {
         }
       )
       console.log(data.data);
+      console.log("Acess token adquirido!");
       return data.data.access_token;
     } catch (e) {
       console.log(e.response.data)

@@ -1,26 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset='utf-8'>
-  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>Teste</title>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel="stylesheet" href="../style/style.css">
-</head>
-<body>
-  <script src="render-form.js"></script>
-  <div id="logos">
-    <img src="../assets/images/alexa.png">
-    <img src="../assets/images/challanger.png">
-  </div>
-  <h1 style="text-align: center; color: #CDBE91;">Show your league of legends elo skill for Amazon Alexa</h1>
-  <style>
-    a {
-      color: #CDBE91;
-    }
-
-  </style>
-  <div class="tab-content translations-content-item en visible" id="en">
+<template>
+  <div>
+    <Header></Header>
+    <style>
+      a { color: #CDBE91; }
+    </style>
+    <div class="tab-content translations-content-item en visible" id="en">
     <h1>Privacy Policy</h1>
     <p>Last updated: October 30, 2021</p>
     <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
@@ -161,18 +145,5 @@
     <li>By email: thide2001@gmail.com</li>
     </ul>
     </div>
-  <div id="ui-data">
   </div>
-  <script>
-    renderForm(
-      () => null,
-      "doido",
-      "br",
-      {
-        "REGION": "REGIÃO",
-        "SUMMONER_FIELD_PLACEHOLDER": "Nome",
-      }
-    )
-  </script>
-</body>
-</html>
+</template>
