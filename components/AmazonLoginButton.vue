@@ -51,7 +51,9 @@
         options.popup = false;
         options.scope = 'profile:user_id';
         options.response_type = 'code';
-        options.state = 'alexa';
+        if(this.state) {
+          options.state = this.state;
+        }
         amazon.Login.authorize(
           options,
           this.constants.redirectUri,

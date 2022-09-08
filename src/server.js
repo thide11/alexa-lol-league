@@ -102,6 +102,10 @@ module.exports = async (publicConsts, allConsts, database, riotApi) => {
         const acessToken = await changeCodeToAcessToken(code, allConsts.alexaRedirectUri);
         console.log("Acess token adquirido 2!");
         console.log(acessToken);
+        if(!acessToken) {
+          res.json({message: "Não foi possivel o trocar o código por token de acesso"});
+          return;
+        }
         const userId = await getUserId(acessToken);
         console.log("User id:  " + userId);
         const jwtToken = jwt.sign({ userId: userId }, jwtKey)
@@ -147,7 +151,7 @@ module.exports = async (publicConsts, allConsts, database, riotApi) => {
   if (isDev) {
     build(nuxt)
   }
-  
+
   async function changeCodeToAcessToken(code, redirectUri) {
     const payload = new URLSearchParams({
       grant_type: "authorization_code",
@@ -156,7 +160,7 @@ module.exports = async (publicConsts, allConsts, database, riotApi) => {
       client_secret: allConsts.clientSecret,
       redirect_uri: redirectUri,
     })
-    // console.log(payload);
+    console.log(payload);
     try {
       const data = await axios.post(
         "https://api.amazon.com/auth/o2/token",
@@ -165,6 +169,7 @@ module.exports = async (publicConsts, allConsts, database, riotApi) => {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
         }
       )
+      
       console.log(data.data);
       console.log("Acess token adquirido!");
       return data.data.access_token;

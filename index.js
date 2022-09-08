@@ -9,13 +9,13 @@ console.log(baseUrl);
 const publicConsts = {
   clientId: process.env.AMAZON_CLIENT_ID,
   baseUrl: baseUrl,
-  redirectUri: baseUrl,
-  alexaRedirectUri: baseUrl + "/?origin=alexa",
+  redirectUri: baseUrl + "/",
+  alexaRedirectUri: baseUrl + "/",
 }
 
 const allConsts = {
   clientSecret: process.env.AMAZON_CLIENT_SECRET,
-  port: 5000,//process.env.PORT,
+  port: 5000, //process.env.PORT,
   riotApiKey: process.env.RIOT_API_KEY,
   ...publicConsts,
 }

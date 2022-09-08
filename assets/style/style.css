@@ -37,28 +37,56 @@ body {
 #league-button {
   position: relative;
   cursor: pointer;
-  width: 180px;
+  width: 225px;
   height: 42px;
   display: flex;
 }
 #league-button #play-button {
-  width: 75%;
+  width: 85%;
   transition-duration: .2s;
+  position: absolute;
+  top: 7px;
+  left: 35px;
+}
+
+#league-button #play-button-container {
+  /* width: 85%;
+  transition-duration: .2s;
+  position: absolute;
+  top: 7px;
+  left: 35px; */
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 155px;
+  height: 36px;
+  margin-left: 50px;
+  padding: 15px 20px 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #A3C7C7;
+  z-index: 2;
 }
 #league-button #challanger-logo {
   width: 35px;
 }
-#league-button:hover #play-button {
+
+#league-button #play-button-container:hover {
+  color: white;
+}
+
+#league-button #play-button-container:hover + #play-button {
   filter: brightness(150%);
 }
 
-#league-button span {
+/* #league-button span {
   position: absolute;
-  left: 70px;
-  top: 12px;
+  left: 75px;
+  top: 18px;
   color: white;
   z-index: 2;
-}
+} */
 
 #nickname {
   padding: 10px;
@@ -78,3 +106,24 @@ body {
   border-left: 0;
   outline: 0;
 }
+
+#logout-button-container {
+  transition-duration: .2s;
+  margin-top: 4px;
+}
+
+#logout-button-container:hover {
+  filter: brightness(150%);
+}
+
+/* #logout-button-container {
+  border-radius: 50%;
+  border: 2px solid #E9D972;
+  width: 20px;
+  height: 20px;
+  padding: 12px;
+}
+
+#logout-button-container img {
+  width: 100%;
+} */

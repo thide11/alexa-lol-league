@@ -5,6 +5,7 @@
         @change-nickname="changeNickname" :is-saving="isSaving" :error-message="errorMessage" :sucess-message="sucessMessage"
         :base-nickname="baseNickname" :base-region="baseRegion"
         :show-button="showButton"
+        :button-label="redirectToAlexa ? $t('SAVE_AND_REDIRECT') : $t('SAVE')"
         v-if="isAuthenticated"
       >
       </SummonerForm>
@@ -15,7 +16,6 @@
 </template>
 
 <script>
-
   async function getLoggedUserData(jwt) {
     const response = await fetch(`/leagueData?jwt=${jwt}`);
     const json = await response.json();
@@ -39,6 +39,9 @@
       redirectToAlexa: {
         type: Boolean,
         default: false
+      },
+      state: {
+        type: String,
       },
     },
     data: function() {
@@ -104,7 +107,8 @@
     },
     methods: {
       makeAlexaRedirect: function() {
-        window.location.href = `https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M2Q9KOUNA747EW&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state}`;
+        const urlRedirect = `https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M2Q9KOUNA747EW&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state}`;
+        window.location.href = urlRedirect;
       },
       countDownTimer: function() {
         this.countDownTimeLeft--;
@@ -113,10 +117,10 @@
         const jwt = localStorage.getItem("jwt");
         if(jwt) {
           const data = await getLoggedUserData(jwt);
-          if(data.nickname && this.redirectToAlexa) {
-            this.makeAlexaRedirect();
-            return;
-          }
+          // if(data.nickname && this.redirectToAlexa) {
+          //   this.makeAlexaRedirect();
+          //   return;
+          // }
           this.baseNickname = data.nickname;
           this.baseRegion = data.region;
           this.isAuthenticated = true;
