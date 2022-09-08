@@ -15,7 +15,7 @@ const publicConsts = {
 
 const allConsts = {
   clientSecret: process.env.AMAZON_CLIENT_SECRET,
-  port: 5000, //process.env.PORT,
+  port: process.env.PORT || 5000,
   riotApiKey: process.env.RIOT_API_KEY,
   ...publicConsts,
 }
@@ -25,7 +25,7 @@ async function startServer() {
   const app = await createServer(publicConsts, allConsts, database, riotApi);
   
   app.listen(allConsts.port, () => {
-    console.log(`Listening at https://localhost:${allConsts.port}`)
+    console.log(`Listening on port ${allConsts.port}`)
   })
 }
 
