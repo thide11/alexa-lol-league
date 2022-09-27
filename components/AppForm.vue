@@ -55,7 +55,7 @@
         errorMessage: "",
         sucessMessage: "",
         isSaving: false,
-        url: "Carol, Kelly, Jackson e Nat <3",
+        url: "",
         countDownTimeLeft: 5,
       }
     },
@@ -110,7 +110,8 @@
       makeAlexaRedirect: function() {
         const urlRedirect = `${this.$route.query.redirect_uri}&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state}`;
         console.log(urlRedirect)
-         window.location.href = urlRedirect;
+        // this.url = urlRedirect;
+        window.location = urlRedirect;
       },
       countDownTimer: function() {
         this.countDownTimeLeft--;
@@ -118,13 +119,7 @@
       loadAuthStatus: async function() {
         const jwt = localStorage.getItem("jwt");
         if(jwt) {
-          
           const data = await getLoggedUserData(jwt);
-
-
-          
-
-
           // if(data.nickname && this.redirectToAlexa) {
           //   this.makeAlexaRedirect();
           //   return;
@@ -132,8 +127,6 @@
           this.baseNickname = data.nickname;
           this.baseRegion = data.region;
           this.isAuthenticated = true;
-          const urlRedirect = `${this.$route.query.redirect_uri}&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state}`;
-          this.url = urlRedirect;
         } else {
           this.isAuthenticated = false;
         }
