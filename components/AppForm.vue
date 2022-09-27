@@ -10,6 +10,7 @@
       >
       </SummonerForm>
       <AmazonLoginButton v-else :redirect-to-alexa="redirectToAlexa"></AmazonLoginButton>
+      <h2>{{url}}</h2>
     </template>
     <LoadingIndicator v-else></LoadingIndicator>
   </div>
@@ -54,7 +55,7 @@
         errorMessage: "",
         sucessMessage: "",
         isSaving: false,
-
+        url: "Carol, Kelly, Jackson e Nat <3",
         countDownTimeLeft: 5,
       }
     },
@@ -107,8 +108,10 @@
     },
     methods: {
       makeAlexaRedirect: function() {
-        const urlRedirect = `https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M2Q9KOUNA747EW&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state}`;
-        window.location.href = urlRedirect;
+        const urlRedirect = `${this.$route.query.redirect_uri}&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state}`;
+        console.log(urlRedirect)
+        this.url = urlRedirect;
+        // window.location.href = urlRedirect;
       },
       countDownTimer: function() {
         this.countDownTimeLeft--;
