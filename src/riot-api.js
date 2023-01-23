@@ -1,6 +1,6 @@
-const axios = require("axios")
+import axios from "axios";
 
-module.exports = function (apiKey) {
+export default function (apiKey) {
   function getBaseUrl(region) {
     const regionsToHostBase = {
       "BR1": "br1", 

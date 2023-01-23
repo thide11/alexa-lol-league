@@ -17,7 +17,7 @@ describe("Should test server routes", () => {
     
     const allConsts = {
       clientSecret: process.env.AMAZON_CLIENT_SECRET,
-      port: process.env.PORT,
+      port: process.env.PORT ?? 80,
       riotApiKey: "RGAPI-782e00c2-4a89-411a-9ab2-d6a44f19206a",
       ...publicConsts,
     }

@@ -1,18 +1,44 @@
-const axios = require("axios")
-const express = require('express')
-const cors = require('cors')
-const jwt = require('jsonwebtoken');
+import axios from "axios"
+import express from "express"
+import cors from "cors"
+import jwt from "jsonwebtoken"
+import path from 'path';
+import * as url from 'url';
 
 const isDev = process.env.NODE_ENV !== 'production'
-const { loadNuxt, build } = require('nuxt')
+import { loadNuxt, build } from 'nuxt';
 
-module.exports = async (publicConsts, allConsts, database, riotApi) => {
+export default async (publicConsts, allConsts, database, riotApi) => {
   const app = express()
   const jwtKey = "shhh"
 
   app.use(express.json())
   app.use(cors())
 
+  app.get('/', (_, res) => {
+    const __filename = url.fileURLToPath(import.meta.url);
+    const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+    res.send(`<!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset='utf-8'>
+      <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+      <title>Site de teste</title>
+      <meta name='viewport' content='width=device-width, initial-scale=1'>
+      <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+      <script src='main.js'></script> -->
+      <style>
+        body {
+          background-color: #add8e6;
+        }
+      </style>
+    </head>
+    <body>
+      <h2>Estou no ar Jhésica!! ✈️✈️</h2>
+    </body>
+    </html>`);
+    // res.sendFile(__basePath  + "\\..\\index.html");
+  })
   app.get('/constants', (_, res) => {
     res.send(publicConsts);
   })
@@ -146,11 +172,11 @@ module.exports = async (publicConsts, allConsts, database, riotApi) => {
     res.json(rankData)
   })
 
-  const nuxt = await loadNuxt(isDev ? 'dev' : 'start')
-  app.use(nuxt.render)
-  if (isDev) {
-    build(nuxt)
-  }
+  // const nuxt = await loadNuxt(isDev ? 'dev' : 'start')
+  // app.use(nuxt.render)
+  // if (isDev) {
+  //   build(nuxt)
+  // }
 
   async function changeCodeToAcessToken(code, redirectUri) {
     const payload = new URLSearchParams({

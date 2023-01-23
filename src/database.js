@@ -1,6 +1,8 @@
-const { Client } = require("pg");
 
-module.exports = function() {
+import pkg from 'pg';
+const { Client } = pkg;
+
+export default function() {
 
   function createConnection() {
     return new Client({
@@ -79,4 +81,4 @@ module.exports = function() {
     getUserDataByAmazonId,
     saveUserDataByAmazonId,
   }
-}()
+}
