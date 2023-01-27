@@ -1,4 +1,4 @@
-import database from "./src/database.js"
+import databaseFn from "./src/database.js"
 import riotApiFn from "./src/riot-api.js"
 import createServer from "./src/server.js"
 import dotenv from "dotenv"
@@ -15,10 +15,12 @@ const publicConsts = {
 
 const allConsts = {
   clientSecret: process.env.AMAZON_CLIENT_SECRET,
-  port: process.env.PORT || 80,
+  port: process.env.PORT || 8080,
   riotApiKey: process.env.RIOT_API_KEY,
   ...publicConsts,
 }
+
+const database = databaseFn();
 
 async function startServer() {
   const riotApi = riotApiFn(allConsts.riotApiKey)
@@ -29,4 +31,5 @@ async function startServer() {
   })
 }
 
+database.createTableIfNotExists();
 startServer();

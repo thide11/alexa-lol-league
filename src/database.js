@@ -3,23 +3,28 @@ import pkg from 'pg';
 const { Client } = pkg;
 
 export default function() {
-
   function createConnection() {
     return new Client({
-      connectionString: process.env.DATABASE_URL,
-      ssl: {
-        rejectUnauthorized: false
-      }
+      connectionString: process.env.DATABASE_URL ?? "postgres://postgres:postgres@postgres:5432/postgres",
+      ssl: false,
     });
   }
-  // CREATE TABLE summoners(
-  //   nickname VARCHAR(16) NOT NULL,
-  //   region VARCHAR(4) NOT NULL,
-  //   puuid TEXT not NULL,
-  //   summoner_id TEXT not null,
-  //   amazon_id TEXT not null,
-  //   PRIMARY KEY (amazon_id)
-  // );
+
+  async function createTableIfNotExists() {
+    const client = createConnection();
+    await client.connect()
+    const query = `CREATE TABLE IF NOT EXISTS summoners(
+      nickname VARCHAR(16) NOT NULL,
+      region VARCHAR(4) NOT NULL,
+      puuid TEXT not NULL,
+      summoner_id TEXT not null,
+      amazon_id TEXT not null,
+      PRIMARY KEY (amazon_id)
+    );`
+    await client.query(query);
+    console.log("Tabela definida com sucesso");
+    await client.end()
+  }
 
   async function getUserDataByAmazonId(id) {
     const client = createConnection();
@@ -78,6 +83,7 @@ export default function() {
   }
 
   return {
+    createTableIfNotExists,
     getUserDataByAmazonId,
     saveUserDataByAmazonId,
   }
