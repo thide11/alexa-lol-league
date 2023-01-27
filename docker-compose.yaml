@@ -17,6 +17,26 @@ services:
       - ../rtsp-conversor/config.json:/config/config.json
     ports:
       - "8080:8080"
+    restart: unless-stopped
+
+  nginx:
+    container_name: nginx
+    restart: unless-stopped
+    image: nginx
+    ports:
+        - 80:80
+        - 443:443
+    volumes:
+        - ./nginx-conf/nginx.conf:/etc/nginx/nginx.conf
+        - ./certbot/conf:/etc/letsencrypt
+        - ./certbot/www:/var/www/certbot
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes: 
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email thide2001@gmail.com -d leagueskill.com --agree-tos
 
 volumes:
   db-data:
