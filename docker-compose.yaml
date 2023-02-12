@@ -8,13 +8,16 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - db-data:/var/lib/postgresql/data
+    command: postgres -c listen_addresses='*'
+    ports:
+      - "5432:5432"
   servidor:
     container_name: alexa_lol_league
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ../rtsp-conversor/config.json:/config/config.json
+      - .:/usr/src/app
     ports:
       - "8080:8080"
     restart: unless-stopped
@@ -27,16 +30,18 @@ services:
         - 80:80
         - 443:443
     volumes:
-        - ./nginx-conf/nginx.conf:/etc/nginx/nginx.conf
-        - ./certbot/conf:/etc/letsencrypt
-        - ./certbot/www:/var/www/certbot
-  certbot:
-    image: certbot/certbot
-    container_name: certbot
-    volumes: 
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot --force-renewal --email thide2001@gmail.com -d leagueskill.com --agree-tos
+        # Toggle nginx conf here:
+        - ./nginx-conf/nginx-https-selfsigned.conf:/etc/nginx/nginx.conf
+        # - ./certbot/conf:/etc/letsencrypt
+        # - ./certbot/www:/var/www/certbot
+        # - ./nginx-conf/nginx-dev.conf:/etc/nginx/nginx.conf
+  # certbot:
+  #   image: certbot/certbot
+  #   container_name: certbot
+  #   volumes: 
+  #     - ./certbot/conf:/etc/letsencrypt
+  #     - ./certbot/www:/var/www/certbot
+  #   command: certonly --webroot -w /var/www/certbot --force-renewal --email thide2001@gmail.com -d leagueskill.com --agree-tos
 
 volumes:
   db-data:

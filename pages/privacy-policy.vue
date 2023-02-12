@@ -76,10 +76,10 @@ a {
         information may include:</p>
       <ul>
         <li>
-          <p>League of legends nickname</p>
+          <p>League of Legends nickname</p>
         </li>
         <li>
-          <p>League of legends region</p>
+          <p>League of Legends region</p>
         </li>
         <li>
           <p>Amazon id</p>

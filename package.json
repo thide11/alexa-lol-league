@@ -3,34 +3,45 @@
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "dev": "nuxt dev",
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "start": "node index",
+    "dev": "nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
+    "dev-debug": "node --inspect node_modules/nuxt/bin/nuxt.mjs dev",
+    "build": "nuxi build",
+    "generate": "nuxi generate",
+    "start": "nuxt start",
     "serve": "vue-cli-service serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nuxtjs/i18n": "^7.2.0",
+    "@nuxtjs/i18n": "^8.0.0-beta.9",
+    "@types/node": "^18.11.19",
     "axios": "^1.2.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-handlebars": "^6.0.2",
-    "jest": "^27.2.5",
+    "h3": "^1.1.0",
+    "is-https": "^4.0.0",
+    "jest": "^29.2.5",
+    "js-cookie": "^3.0.1",
     "jsonwebtoken": "^9.0.0",
     "nuxt": "^3.0.0",
-    "pg": "^8.8.0",
-    "supertest": "^6.3.3"
+    "pg": "^8.9.0",
+    "supertest": "^6.3.3",
+    "typescript": "^4.9.5",
+    "vue-tsc": "^1.0.24"
   },
   "devDependencies": {
+    "@nuxt/types": "^2.16.0",
     "@nuxtjs/svg": "^0.0.0",
+    "@types/jest": "^29.4.0",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/pg": "^8.6.6",
     "babel-core": "^6.26.3",
+    "ts-jest": "^29.0.5",
     "webpack": "^5.75.0"
   }
 }

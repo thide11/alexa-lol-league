@@ -18,13 +18,13 @@
 
 <script>
   async function getLoggedUserData(jwt) {
-    const response = await fetch(`/leagueData?jwt=${jwt}`);
+    const response = await fetch(`/api/leagueData?jwt=${jwt}`);
     const json = await response.json();
     return json;
   }
 
   async function saveLoggedUserData(jwt, data) {
-    const response = await fetch(`/leagueData?jwt=${jwt}`, {
+    const response = await fetch(`/api/leagueData?jwt=${jwt}`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -70,7 +70,7 @@
       console.log(this.jwt);
       if(this.$route.query?.code != undefined && !this.jwt) {
         const { code } = this.$route.query;
-        const response = await fetch("/exchangeCodeToJWT", {
+        const response = await fetch("/api/exchangeCodeToJWT", {
           method: "POST",
           body: JSON.stringify({ code }),
           headers: {
