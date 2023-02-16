@@ -44,6 +44,7 @@
       this.constants = await getConstants();
       await configureAmazonSdk(this.constants)
     },
+    
     methods: {
       login: function(event) {
         this.showButton = false;
@@ -54,9 +55,16 @@
         if(this.state) {
           options.state = this.state;
         }
+        let extra = "";
+        if(this.$i18n.locale == "pt-br") {
+          extra += "pt-br"
+        }
+        if(this.redirectToAlexa) {
+          extra += "?origin=alexa";
+        }
         amazon.Login.authorize(
           options,
-          this.constants.redirectUri,
+          this.constants.redirectUri + extra,
         );
       }
     }

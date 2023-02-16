@@ -26,6 +26,12 @@ export default {
   i18n: {
     locales: ['en', 'pt-br'],
     defaultLocale: 'en',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',  // recommended
+      alwaysRedirect: true
+    },
     vueI18n: {
       fallbackLocale: 'en',
       messages: {
@@ -50,7 +56,7 @@ export default {
           "VINCULATION_TUTORIAL_STEP_1": "Authenticate with an amazon account",
           "VINCULATION_TUTORIAL_STEP_2": "If you are a new user, enter your nickname and region of lol",
           "VINCULATION_TUTORIAL_STEP_3": 'Activate the skill by saying "Alexa, open league legends rank"',
-          "VINCULATION_TUTORIAL_END": "You can enter any nickname, including famous ones, and change it at any time by accessing the website lolskill.games"
+          "VINCULATION_TUTORIAL_END": "You can enter any nickname, including famous ones, and change it at any time by accessing the website leagueskill.com"
         },
         pt: {
           "MISSING_NICKNAME_REGION": "Você deve selecionar uma região e um nome do invocador",
@@ -73,7 +79,7 @@ export default {
           "VINCULATION_TUTORIAL_STEP_1": "Autentique com uma conta da amazon",
           "VINCULATION_TUTORIAL_STEP_2": "Se for usuário novo, informe seu nickname e região do lol",
           "VINCULATION_TUTORIAL_STEP_3": 'Ative a skill falando "Alexa, abrir meu elo no lol"',
-          "VINCULATION_TUTORIAL_END": "Você pode inserir qualquer nickname, inclusive de famosos, e alterar a qualquer momento acessando o site lolskill.games"
+          "VINCULATION_TUTORIAL_END": "Você pode inserir qualquer nickname, inclusive de famosos, e alterar a qualquer momento acessando o site leagueskill.com"
         },
       }
     }

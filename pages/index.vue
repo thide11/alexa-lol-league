@@ -1,16 +1,11 @@
 <script setup>
-  useAsyncData('stats', () => {
-    const route = useRoute();
-    const originIsFromAlexa = route?.query?.origin == "alexa";
-    const state = route?.query?.state;
-    return {
-      showTutorial: originIsFromAlexa,
-      userFromAlexa: originIsFromAlexa || state,
-      state: state,
-    }
-  })
+  const route = useRoute();
+  const originIsFromAlexa = route?.query?.origin == "alexa";
+  const state = route?.query?.state;
+  const showTutorial = originIsFromAlexa
+  const userFromAlexa = originIsFromAlexa
+  
   const appConfig = useRuntimeConfig()
-  console.log(appConfig)
 </script>
 <template>
   <div class="base">

@@ -61,8 +61,8 @@ a {
             Service or from the Service infrastructure itself (for example, the duration of a page visit).</p>
         </li>
         <li>
-          <p><strong>Website</strong> refers to Lol skill, accessible from <a href="https://lolskill.games/"
-              rel="external nofollow noopener" target="_blank">https://lolskill.games/</a></p>
+          <p><strong>Website</strong> refers to Lol skill, accessible from <a href="https://leagueskill.com/"
+              rel="external nofollow noopener" target="_blank">https://leagueskill.com/</a></p>
         </li>
         <li>
           <p><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal
