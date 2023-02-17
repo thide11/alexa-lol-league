@@ -108,9 +108,16 @@
     },
     methods: {
       makeAlexaRedirect: function() {
-        const urlRedirect = `${this.$route.query.redirect_uri}&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state}`;
+        const redirectUrl = localStorage.getItem("redirect_uri");
+        const state = localStorage.getItem("state");
+        console.log("Recebido do local storage a url de redirecionamento:")
+        console.log(redirectUrl)
+        const urlRedirect = `${this.$route.query.redirect_uri ?? redirectUrl}&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state ?? state}`;
+        localStorage.removeItem("redirect_uri")
+        localStorage.removeItem("state")
+        console.log("Final:")
         console.log(urlRedirect)
-        // this.url = urlRedirect;
+        this.url = urlRedirect;
         window.location = urlRedirect;
       },
       countDownTimer: function() {
@@ -133,7 +140,6 @@
         this.authStatusProcessed = true;
       },
       changeNickname: async function(formData) {
-        
         console.log(formData)
         this.isSaving = true;
         this.errorMessage = "";

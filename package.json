@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nuxt dev --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
+    "dev": "nuxt dev",
     "dev-debug": "node --inspect node_modules/nuxt/bin/nuxt.mjs dev",
     "build": "nuxi build",
     "generate": "nuxi generate",

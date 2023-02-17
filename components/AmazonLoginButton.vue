@@ -46,7 +46,7 @@
     },
     
     methods: {
-      login: function(event) {
+      login: function (event) {
         this.showButton = false;
         const options = {}
         options.popup = false;
@@ -61,6 +61,12 @@
         }
         if(this.redirectToAlexa) {
           extra += "?origin=alexa";
+          console.log("Paramatros query:")
+          console.log(this.$route.query)
+          const redirectUri = this.$route.query.redirect_uri
+          const state = this.$route.query.state
+          localStorage.setItem("state", state);
+          localStorage.setItem("redirect_uri", redirectUri);
         }
         amazon.Login.authorize(
           options,

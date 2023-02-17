@@ -12,7 +12,18 @@ export default defineEventHandler(async (request) => {
     const code = query["code"] as string;
     if(code && code.length == 20) {
       try {
-        const acessToken = await Utils.changeCodeToAcessToken(code, consts.allConsts.alexaRedirectUri);
+        let redirectUrl = request.node.req.headers.referer!;
+        
+        if(redirectUrl.includes("?code=")) {
+          redirectUrl = redirectUrl.split("?code=")[0]
+        }
+        if(redirectUrl.includes("&code=")) {
+          redirectUrl = redirectUrl.split("&code=")[0]
+        }
+        console.log("Redirect url gerado:")
+        console.log(redirectUrl)
+
+        const acessToken = await Utils.changeCodeToAcessToken(code, "https://leagueskill.com/pt-br");
         console.log("Acess token adquirido 2!");
         console.log(acessToken);
         if(!acessToken) {
