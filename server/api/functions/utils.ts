@@ -1,6 +1,7 @@
 import axios from "axios";
 import { H3Event } from "h3";
 import constants from "./constants";
+import Logger from './logger';
 
 export default class Utils {
   static sendExpiredApiKey(request : H3Event) {
@@ -10,7 +11,6 @@ export default class Utils {
       message: "Api key expired"
     }
   }
-
 
   static async getUserId(accessToken : string) {
     const response = await axios.get(`https://api.amazon.com/user/profile?access_token=${accessToken}`)
@@ -28,7 +28,7 @@ export default class Utils {
       redirect_uri: redirectUri,
     })
 
-    console.log(payload);
+    Logger.log(payload);
     try {
       const data = await axios.post(
         "https://api.amazon.com/auth/o2/token",
@@ -38,12 +38,12 @@ export default class Utils {
         }
       )
       
-      console.log(data.data);
-      console.log("Acess token adquirido!");
+      Logger.log(data.data);
+      Logger.log("Acess token adquirido!");
       return data.data.access_token;
     } catch (e) {
       //@ts-ignore
-      console.log(e.response.data)
+      Logger.log(e.response.data)
     }
   }
 

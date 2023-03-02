@@ -1,6 +1,7 @@
 
 
 import postgress from 'pg';
+import Logger from './functions/logger';
 const Client = postgress.Client;
 
 interface Summoner {
@@ -31,7 +32,7 @@ export default class Database {
       PRIMARY KEY (amazon_id)
     );`
     await client.query(query);
-    console.log("Tabela definida com sucesso");
+    Logger.log("Tabela definida com sucesso");
     await client.end()
   }
 

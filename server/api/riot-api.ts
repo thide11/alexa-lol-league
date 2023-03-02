@@ -1,5 +1,6 @@
 import axios from "axios";
 import constants from "./functions/constants";
+import Logger from './functions/logger';
 
 export default class RiotApi {
   constructor(private apiKey? : string) {
@@ -33,7 +34,7 @@ export default class RiotApi {
   async getSummonerData(region : string, nickname : string) {
     try {
       const url = `${this.getBaseUrl(region)}/lol/summoner/v4/summoners/by-name/${encodeURI(nickname)}?api_key=${this.apiKey}`;
-      console.log(url)
+      Logger.log(url)
       const { data } = await axios.get(url)
       return data;
     } catch (e) {
@@ -47,7 +48,7 @@ export default class RiotApi {
 
   async getMatches(region : string, summonerId : string) {
     const url = `${this.getBaseUrl(region)}/lol/league/v4/entries/by-summoner/${summonerId}?api_key=${this.apiKey}`;
-    console.log(url)
+    Logger.log(url)
     const { data } = await axios.get(url)
     return data;
   }

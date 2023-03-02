@@ -1,5 +1,4 @@
 const baseUrl = process.env.BASE_URL ?? "http://leagueskill.com";
-// console.log(baseUrl);
 const publicConsts = {
   clientId: process.env.AMAZON_CLIENT_ID,
   baseUrl: baseUrl,

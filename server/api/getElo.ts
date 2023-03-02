@@ -4,6 +4,7 @@ import database from "./database";
 import riotApi from "./riot-api";
 import Database from "./database";
 import RiotApi from "./riot-api";
+import Logger from './functions/logger';
 
 export default defineEventHandler(async (request) => {
   const query = getQuery(request);
@@ -17,7 +18,7 @@ export default defineEventHandler(async (request) => {
 
   const database = new Database();
   const data = await database.getUserDataByAmazonId(amazonId);
-  console.log(data);
+  Logger.log(data);
   if (!data) {
     return {
       code: "SUMMONER_NOT_FOUND",
@@ -26,6 +27,6 @@ export default defineEventHandler(async (request) => {
   }
   const riotApi = new RiotApi();
   const rankData = await riotApi.getSoloDuoRank(data.region, data.summonerId)
-  console.log(rankData)
+  Logger.log(rankData)
   return rankData ?? {}
 })

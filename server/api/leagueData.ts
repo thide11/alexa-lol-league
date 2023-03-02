@@ -3,6 +3,7 @@ import { defineEventHandler, getQuery, readBody } from 'h3';
 import Database from "./database";
 import Utils from "./functions/utils";
 import RiotApi from "./riot-api";
+import Logger from './functions/logger';
 
 export default defineEventHandler(async (request) => {
 
@@ -40,7 +41,7 @@ export default defineEventHandler(async (request) => {
         puuid: riotData.puuid,
         summonerId: riotData.id,
       }
-      console.log(userData)
+      Logger.log(userData)
       await database.saveUserDataByAmazonId(amazonId, newData);
       return newData;
     } catch (e) {
@@ -51,20 +52,20 @@ export default defineEventHandler(async (request) => {
     }
 
   } else {
-    console.log("Recebido GET")
+    Logger.log("Recebido GET")
     const query = getQuery(request);
-    console.log(query)
+    Logger.log(query)
     const amazonId = getJwtAmazonIdOrNull(query["jwt"] as string);
-    console.log("Amaazon id:")
-    console.log(amazonId)
+    Logger.log("Amaazon id:")
+    Logger.log(amazonId)
     try {
-      console.log("Carregando elo do usuario...")
+      Logger.log("Carregando elo do usuario...")
       const data = (await database.getUserDataByAmazonId(amazonId)) ?? {
         nickname: '',
         region: '',
       };
-      console.log("Elo carregado!...")
-      console.log(data)
+      Logger.log("Elo carregado!...")
+      Logger.log(data)
       return data;
     } catch (e : any) {
       if (e?.response?.status == 403) {
@@ -78,7 +79,7 @@ export default defineEventHandler(async (request) => {
     }
   }
 
-  console.log("Nenhum response, deu ruim!")
+  Logger.log("Nenhum response, deu ruim!")
 
   return {
     foi: true
