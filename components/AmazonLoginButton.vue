@@ -65,8 +65,12 @@
           console.log(this.$route.query)
           const redirectUri = this.$route.query.redirect_uri
           const state = this.$route.query.state
-          localStorage.setItem("state", state);
-          localStorage.setItem("redirect_uri", redirectUri);
+          if(state) {
+            localStorage.setItem("state", state);
+          }
+          if(redirectUri) {
+            localStorage.setItem("redirect_uri", redirectUri);
+          }
         }
         amazon.Login.authorize(
           options,

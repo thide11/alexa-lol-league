@@ -112,7 +112,8 @@
         const state = localStorage.getItem("state");
         console.log("Recebido do local storage a url de redirecionamento:")
         console.log(redirectUrl)
-        const urlRedirect = `${this.$route.query.redirect_uri ?? redirectUrl}&access_token=${this.jwt}&token_type=Bearer&state=${this.$route.query.state ?? state}`;
+        const urlRedirect = `${this.$route.query.redirect_uri ?? redirectUrl}&access_token=${localStorage.getItem("jwt")}&token_type=Bearer&state=${this.$route.query.state ?? state}`;
+        console.log(urlRedirect);
         localStorage.removeItem("redirect_uri")
         localStorage.removeItem("state")
         console.log("Final:")
