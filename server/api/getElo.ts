@@ -26,7 +26,7 @@ export default defineEventHandler(async (request) => {
     }
   }
   const riotApi = new RiotApi();
-  const rankData = await riotApi.getSoloDuoRank(data.region, data.summonerId)
+  const rankData = await riotApi.getSoloDuoRank(data.region, data.puuid)
   Logger.log(rankData)
   return rankData ?? {}
 })

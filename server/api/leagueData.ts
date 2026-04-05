@@ -27,19 +27,19 @@ export default defineEventHandler(async (request) => {
     }
     try {
 
-      const riotData = await riotApi.getSummonerData(userData.region, userData.nickname);
+      const riotData = await riotApi.getAccountData(userData.region, userData.nickname);
       if (riotData == null) {
         return {
           code: "INEXISTENT_NICKNAME",
-          message: "This nickname does not exist"
+          message: "This Riot ID does not exist"
         }
       }
 
       const newData = {
-        nickname: userData.nickname,
+        nickname: `${riotData.gameName}#${riotData.tagLine}`,
         region: userData.region,
         puuid: riotData.puuid,
-        summonerId: riotData.id,
+        summonerId: "",
       }
       Logger.log(userData)
       await database.saveUserDataByAmazonId(amazonId, newData);

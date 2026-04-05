@@ -24,7 +24,7 @@ export default class Database {
     const client = this.createConnection();
     await client.connect()
     const query = `CREATE TABLE IF NOT EXISTS summoners(
-      nickname VARCHAR(16) NOT NULL,
+      nickname VARCHAR(64) NOT NULL,
       region VARCHAR(4) NOT NULL,
       puuid TEXT not NULL,
       summoner_id TEXT not null,
